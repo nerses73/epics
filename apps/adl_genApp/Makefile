@@ -22,3 +22,5 @@ clean::
 	$(RM) adl_gen.o
 	$(RM) adl-help.ps
 	$(RM) adl-tech.ps
+
+realclean:: clean
