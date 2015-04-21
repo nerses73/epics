@@ -15,6 +15,13 @@ DB    += anova.db
 PROTO += anova.proto
 REQ   += anova_settings.req
 
+DB    += thermoSci.db
+PROTO += thermoSci.proto
+
+DB    += presto.db
+PROTO += presto.proto
+REQ   += presto_settings.req
+
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add
 # <anyname>_TEMPLATE = <templatename>

@@ -28,13 +28,10 @@ elsif ( @ARGV > 2 )
 $det2save = $ARGV[0] ;
 $det2save =~ tr/a-z/A-Z/ ;
 $grp2save = $ARGV[1] ;
-#$grp2save =~ tr/a-z/A-Z/ ;
 
-
-
-$SnapDir = "/home/epics/burt/HV/" ;
-
-#@DetectorNames = ( "EC",  "CC", "SC", "BM", "TA" );
+# Detector name will be capitalized and added to the path
+# (ex. ecal -> /usr/clas12/hps/DATA/ECAL/)
+$SnapDir = "/usr/clas12/hps/DATA/";
 
 $det_dir = $SnapDir.$det2save ;
 
@@ -138,7 +135,16 @@ sub save_file
 
     $grp_key = $det_name."\_grp".$grp_numb ;
 #    print "Group Key is $grp_key \n" ;
-    $req_dir = "\$APP/hvcaApp/req/" ;
+
+#NO:
+    #$req_dir = "\$APP/hvcaApp/req/" ;
+#YES:
+    $req_dir = $ENV{"APP"}."/hvcaApp/req/" ;
+
+
+#    print "\n\n$req_dir\n\n$grp_key\n\n";
+
+
     @req_file_list = `ls $req_dir\* | grep \"$grp_key\"` ;
     
     $req_file_string = "";

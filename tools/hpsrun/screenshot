@@ -1,0 +1,19 @@
+#!/bin/sh
+#
+# Wrap with xterm -e
+#
+
+echo 'Enter Title ... (NO SPACES NOR SPECIAL CHARACTERS ALLOWED) ...'
+read title
+echo 'Left Click in Window for Snapshot (NO OVERLAPPING WINDOWS)  ....'
+
+file=$HOME/screenshots/$title\_`date +%Y-%m-%d_%H-%M-%S`.png
+import $file
+
+echo 'Saved Screenshot As:'
+echo $file
+echo ''
+echo ''
+echo 'Press [enter] to exit.'
+read enter
+exit 0

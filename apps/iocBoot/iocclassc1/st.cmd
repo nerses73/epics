@@ -2,7 +2,8 @@
 
 ## The following is needed if your board support package doesn't at boot time
 ## automatically cd to the directory containing its startup script
-cd "$IOC_root_classc1/iocBoot/iocclassc1"
+#cd "$IOC_root_classc1/iocBoot/iocclassc1"
+cd "$IOC_root_classc1"
 
 < cdCommands
 #< ../nfsCommands
@@ -21,16 +22,17 @@ dbLoadDatabase "dbd/classc1.dbd"
 classc1_registerRecordDeviceDriver pdbbase
 
 ##epicsEnvSet("EPICS_CA_MAX_ARRAY_BYTES", "5000000")
+epicsEnvSet( "EPICS_CA_ADDR_LIST", "129.57.255.4")
 
 ## Load record instances
 ##dbLoadTemplate "db/user.substitutions"
 ##dbLoadRecords "db/dbSubExample.db", "user=levon"
 
+
 dbLoadRecords("db/bom_scaler.db", "scaler=bom_sc,slot=0,FIFO=16")
 dbLoadRecords("db/bom_stop_start.db", "scaler=bom_sc")
 dbLoadRecords("db/bom_read_control.db", "scaler=bom_sc")
 dbLoadRecords("db/bom_sum.db", "scaler=bom_sc")
-
 
 ##dbLoadRecords "db/asym_scaler_common.db"
 
@@ -100,8 +102,8 @@ devSTR7201Debug = 0
 drvSTR7201Debug = 0
 #ppc
 STR7201Setup(1, 0x08000000, 220, 6)
-##STR7201Config(0,32,16,1,1)
-STR7201Config(0,32,16,0,1)
+STR7201Config(0,32,16,1,1)
+
 
 #
 # Scaler debug switches
@@ -151,7 +153,7 @@ omsSetup(2, 0x8000, 180, 5, 10)
 #traceIocInit
 
 cd startup
-iocInit
+iocInit "../resource.def"
 
 # set some initial values:
 ##dbpf "fcup_offset","144.46"

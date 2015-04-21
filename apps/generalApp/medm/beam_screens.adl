@@ -1,12 +1,12 @@
 
 file {
-	name="/misc/clas12/hps/prod/apps/generalApp/medm/beam_screens.adl"
+	name="/usr/clas12/hps/v1.0.0/apps/generalApp/medm/beam_screens.adl"
 	version=030108
 }
 display {
 	object {
-		x=376
-		y=150
+		x=1407
+		y=556
 		width=200
 		height=300
 	}
@@ -100,7 +100,7 @@ display {
 	}
 	display[1] {
 		label="BPM"
-		name="bpm1nA_BPM1Hz.adl"
+		name="BPMs.adl"
 	}
 	display[2] {
 		label="Injector"
@@ -121,6 +121,10 @@ display {
 	display[6] {
 		label="BTA"
 		name="bta_status.adl"
+	}
+	display[7] {
+		label="Waveform Writer"
+		name="wave2root.adl"
 	}
 	clr=14
 	bclr=35

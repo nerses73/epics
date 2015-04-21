@@ -69,18 +69,17 @@ public class HarpScanGUIFULL extends JFrame implements ActionListener {
     private List fileHeader;  
     String[] counterNames = new String[]{"F Cup",
         "Upstream Left","UpstreamRight",
-				      "Tagger Left", "Tagger Right","Tagger Top",
+            "Tagger Left", "Tagger Right","Tagger Top",
             "Downstream Left","Downstream Right",
             "Downstream Top", "Downstream Bottom",
-            "BLM-1","BLM-2","HPS Left","HPS Right",
-            "ECAL Cosm 1","ECAL Cosm 2","ECAL Cosm 3","ECAL Cosm 4",
+            "HPS Left","HPS Right",
+            "HPS-T","HPS-SC"
         };
     private HarpGenericAnalyzer  harpAnalyzer = new HarpGenericAnalyzer();
 
-    public HarpScanGUIFULL(String type, double[] limits){        
+    public HarpScanGUIFULL(String type, double[] limits){
         super(type);
-        
-        
+                
         this.setSize(1200, 800);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         splitPane = new JSplitPane();
@@ -159,7 +158,7 @@ public class HarpScanGUIFULL extends JFrame implements ActionListener {
     }
     
     public void initProperties(){
-        
+       
         analyzerProperties.clear();
         analyzerProperties.setProperty("scan.limits.tagger.x.min", "52.0");
         analyzerProperties.setProperty("scan.limits.tagger.x.max", "56.0");
@@ -226,16 +225,15 @@ public class HarpScanGUIFULL extends JFrame implements ActionListener {
         return null;
     }
     
-    public void makeLogEntry(){
-               
+    public void makeLogEntry(){               
+        harpAnalyzer.setPVs(this_harp_dir);
         String imagePath = this.getTempImagePath();
         if(imagePath!=null){        
             canvas.exportPNG(imagePath);
             MakeLogEntry log = new MakeLogEntry();
             log.setTitle("Scan of " + this_harp_dir);
             StringBuilder str = new StringBuilder();
-                str.append("Harp File: " + currentHarpFilesDir + "/" + currentFileName + "\n");
-//            for(int loop = 0; harpAnalyzer.functions.size() >= loop;loop++){
+//           for(int loop = 0; harpAnalyzer.functions.size() >= loop;loop++){
               for(int loop = 0; harpAnalyzer.getHarpFuncs().size() > loop;loop++){ 
                   System.out.println("Loop = " + loop);
                 String[] labels = harpAnalyzer.getLegend(loop, this_harp_dir);
@@ -370,9 +368,11 @@ public class HarpScanGUIFULL extends JFrame implements ActionListener {
         String file_stamp = currentFileName;
         file_stamp = file_stamp.replace(".txt", "");
         String[] str_filename = {file_stamp};
+        String[] beam_pos_legend = harpAnalyzer.getBeamXY_legend(this_harp_dir);
         canvas.addLegend(1, 0.6, 0.25, counter_name);
 	canvas.addLegend(1, 0.6, 0.15, str_filename);
-    }
+        canvas.addLegend(2, 0.6, 0.15, beam_pos_legend);
+;    }
     
     public void loadData(){
         JFileChooser chooser = new JFileChooser(currentHarpFilesDir);

@@ -14,9 +14,12 @@ program harp_scan_generic
 
 option -c;
 option +r;
+option -a;
+option +d;
 
 #include "scan.h"
 %%#include "epics_b_struct.h"
+#define sleep_delay(SltX) taskDelay(SltX*sysClkRateGet())
 
 /* motor records  */
 
@@ -125,9 +128,11 @@ monitor command;
 
 float position_a;
 assign position_a to "{motor_name}_position_a";
+monitor position_a;
 
 float position_b;
 assign position_b to "{motor_name}_position_b";
+monitor position_b;
 
 float speed_to_a;
 assign speed_to_a to "{motor_name}_speed_to_a";
@@ -164,9 +169,15 @@ float harp_position_init;
 int fd;
 int i;
 
+int delayTime;
+
+int retStatus;
+
+double timeWaited = 0;
+
 %% extern int get_e_name(int, char *);
 %% extern int get_r_name(int, char *);
-%% extern int scp_clon01(char *, int);
+%% extern int scp_clon01(char *, char*, int);
 
 /* state code  */
 ss harp_scan_snc {
@@ -182,10 +193,25 @@ ss harp_scan_snc {
    }
    if(  ( ! (strcmp(motor_name,"harp_2H02A"))) )
    {
+       pvStopMonitor( scaler_cnt );
        pvAssign(scaler_tp, "scaler.TP"); 
        pvAssign(scaler_cnt, "scaler.CNT"); 
        pvAssign(scaler_mode, "scaler_mode.VAL"); 
        pvAssign(display_mode, "display_mode.VAL"); 
+       pvMonitor( scaler_cnt );
+       timeWaited = 0.0;
+       while( ( (	!pvAssigned (scaler_tp  ) || !pvConnected(scaler_tp  ) ) || 
+	        (	!pvAssigned (scaler_cnt  ) || !pvConnected(scaler_cnt  ) ) || 
+	        (	!pvAssigned (scaler_mode  ) || !pvConnected(scaler_mode ) ) ||
+	        (	!pvAssigned (display_mode  ) || !pvConnected(display_mode ) ) )
+	     && (timeWaited < 10) ) {
+		printf( "Scaler Connect: waiting %f \n", timeWaited );
+		timeWaited = timeWaited + 1.0;
+                epicsThreadSleep( 1.0 );
+       }
+       if( timeWaited >= 10 ) { 
+	printf( "Error : Timed out waiting for scaler to connect \n" );
+       }
    }
 
 /* ========================================================= */
@@ -221,10 +247,25 @@ ss harp_scan_snc {
    }
    if(  ( ! (strcmp(motor_name,"harp_2H02A"))) )
    {
+       pvStopMonitor( scaler_cnt );
        pvAssign(scaler_tp, "scaler.TP"); 
        pvAssign(scaler_cnt, "scaler.CNT"); 
        pvAssign(scaler_mode, "scaler_mode.VAL"); 
        pvAssign(display_mode, "display_mode.VAL"); 
+       pvMonitor( scaler_cnt );
+       timeWaited = 0.0;
+       while( ( (	!pvAssigned (scaler_tp  ) || !pvConnected(scaler_tp  ) ) || 
+	        (	!pvAssigned (scaler_cnt  ) || !pvConnected(scaler_cnt  ) ) || 
+	        (	!pvAssigned (scaler_mode  ) || !pvConnected(scaler_mode ) ) ||
+	        (	!pvAssigned (display_mode  ) || !pvConnected(display_mode ) ) )
+	     && (timeWaited < 10) ) {
+		printf( "Scaler Connect: waiting %f \n", timeWaited );
+		timeWaited = timeWaited + 1.0;
+                epicsThreadSleep( 1.0 );
+       }
+       if( timeWaited >= 10 ) { 
+	printf( "Error : Timed out waiting for scaler to connect \n" );
+       }
    }
 
 /* ========================================================= */
@@ -283,7 +324,23 @@ ss harp_scan_snc {
    state write_beam_conf {
      when () {
       /*write magnet settings to the file*/
+        printf( "Debigging\n" );
 	for (tmp_int = 0;  (get_e_rec(tmp_int,tmp_rec) && get_e_name(tmp_int,tmp_name)); tmp_int++) {
+	   retStatus = pvAssign(tmp_float[tmp_int], tmp_rec);
+	   printf( "Return from pvAssign is %d for variable number %d \n", retStatus, tmp_int );
+
+	   timeWaited = 0.0;
+	   while( (	!pvAssigned ( tmp_float[tmp_int] ) 
+	            ||  !pvConnected( tmp_float[tmp_int] ) ) 
+	          && (timeWaited < 2) ) {
+		printf( "waiting %f \n", timeWaited );
+		timeWaited = timeWaited + 1.0;
+                epicsThreadSleep( 1.0 );
+	   }
+	printf( "Connected or timed out\n" );
+/*	delayTime = 1 * sysClkRateGet(); */
+/*	taskDelay( delayTime ); */
+/*	printf( "record name is <%s>\n",tmp_rec );  */
            pvGet(tmp_float[tmp_int]);
            tmp_f = tmp_float[tmp_int];
            printf("# %50s: %24s: %f\n",tmp_name, tmp_rec,tmp_f); 
@@ -316,10 +373,12 @@ ss harp_scan_snc {
 
         scaler_cnt = COUNT;
         pvPut(scaler_cnt);
+        printf( "Will go to write scaler (daq_write) \n" );
      } state daq_write
    }
    state daq_write {
      when (scaler_cnt == DONE && harp_position > position_a && harp_position < position_b) {
+/*       printf( "Count done \n" ); */
        pvGet(rmp);
        fdprintf(fd,"%f ", harp_position);
 
@@ -332,8 +391,9 @@ ss harp_scan_snc {
 	          fdprintf(fd,"%d ", scaler_datasc1[i]);
 	       }
        }
-       if(  ( ! (strcmp(cmotor_name,"harp_2H02A"))) )
+       if(  ( ! (strcmp(motor_name,"harp_2H02A"))) )
        {
+/*	printf("Writing scalers for harp_2H02A \n" ); */
 	       for (i=0;i<16;i++) {
 	          pvGet(scaler_datasc4[i]);
 	          fdprintf(fd,"%d ", scaler_datasc4[i]);
@@ -381,7 +441,7 @@ ss harp_scan_snc {
 /*close the file  and scp to mcc*/
       if ((fd > 0) && (fd != ioGlobalStdGet(1)) ) {
          close(fd);
-         scp_clon01(shortname, 5);
+         scp_clon01(shortname, motor_name, 5);
       }
 
      } state restore_hardware
@@ -512,7 +572,7 @@ extern void printErrno(int);
 extern BOOT_PARAMS sysBootParams;
 
 STATUS
-scp_clon01(char *harpscan_file, int sleep_time)
+scp_clon01(char *harpscan_file, char* mot_name,  int sleep_time)
 {
 
   int rfd;
@@ -527,7 +587,8 @@ scp_clon01(char *harpscan_file, int sleep_time)
   strcpy(ruser,sysBootParams.usr);
 
   /* Construct the remote command */
-  sprintf(rstring,"sleep %i;scp /home/epics/data/e_scans/%s epics@opsll.acc.jlab.org:/cs/op/iocs/DATA/harp/profile/HallB/%s  &",sleep_time, harpscan_file, harpscan_file);
+  sprintf(rstring,"sleep %i;scp /home/epics/DATA/HARP_SCANS/%s/%s epics@opsll.acc.jlab.org:/usr/opsdata/harpData/HallB/%s  &",
+      sleep_time, mot_name, harpscan_file, harpscan_file);
 
    printf("SCP CMD: %s\n", rstring);
 
@@ -544,7 +605,7 @@ scp_clon01(char *harpscan_file, int sleep_time)
     printf("harp_scan_generic: file scp to mcc opsll\n");
 
 
-  } else {  /* Print the error */
+  } else {  /* PrintDe the error */
     printf("harp_scan_generic: ERROR: ");
     printErrno(errno);
     return(ERROR);

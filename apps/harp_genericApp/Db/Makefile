@@ -23,6 +23,8 @@ DB += motorlong.db
 DB += radiator_long.db
 DB += radiators.db
 DB += scan.db
+DB += hps_target.db
+DB += viewer.db
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add

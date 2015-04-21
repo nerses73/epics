@@ -1,3 +1,370 @@
+Version 1.2.1:
+ - generalApp/strip: updated makefile to generate .gitignore for symlinks
+
+Version 1.2.0:
+ - Merged develop: imported CAEN_HV for ECAL and jlab scalers
+ - Handled merge conflicts from branch rafo-merge (orig: rafopar/epics epics-hps)
+ - jscalers: imported SCALERS from clas 0.2 with some mods for HPS
+ - Merged lastest updates from rafopar/epics, branch epics-hps
+ - tools: updated Makefile to find directories instead of hardcoded
+ - SVT_Scan_Analyzer: fix, top-level makefile didn't include this app.  Set .gitignore for generated files.
+ - caen_hvApp: fixed channel assignment
+ - Arne's correction is added
+ - ioc_hps_health.adl: removed autosave fields from iocecalVoltages
+ - CAEN_HV: removed STATIC_BUILD=NO
+ - CAEN_HV: fixed compiler warnings
+ - CAEN_HV/iocecalVoltages: working version, needs clean up
+ - Merge remote-tracking branch 'origin/hotfix-v1.1.1' into develop
+ - First version of SVT scan analyzer
+ -  Analyzer of beam_trips is added
+ - a preliminary version of Beam trip analyzer
+
+Version 1.1.1:
+ - Merge remote-tracking branch 'origin/hotfix-v1.1.1'
+ - iocclassc4: updated fcup_offset
+ - hvcaApp: update for req directory (baltzell)
+ - caput is added for the x_offset and y_offset that are obtained from a truncated fit names are HPS_SVT:SCAN:x_offset_locfit and HPS_SVT:SCAN:y_offset_locfit
+ - myaDataApp: added [x-y]_offset_locfit for rafopar
+ - new hps ecal strip charts
+ - fixing oops
+ - Two different fit results are now shown in the output screen
+ - adding ecal StripTool stripcharts
+ - readding chiller temp alarm
+ - adding non-refresh/accumulate mode
+ - making a less fast hps ecal led sequence
+ - apps/alhConfig, apps/svtDaqApp - changes to ALH configs and alarm setpoints
+ - added the EPICS channels for the detectors
+ - CAEN_HV: added devIocStats
+ - chillerApp: updated ECAL to use new Anova A40
+ - 1st version of SVT scan analyzer
+ - strip chart is fraction
+ - changed the units of the angle to radians
+ - changed the units of the angle to radians
+ - adding new HPS trigger rates screen
+ - updating trigger scalers
+ - hps trigger scalers after epics db update
+ - adding new hps_trigger_scalers.adl
+ - new trigger rate gui for HPS
+ - new HV backup gui for HPS ECAL
+ - using new backup script
+ - softioc_console: fixed ssh problem. The hostname check was comparing against full hostname, causing an issue when using on same host as the ioc is running.
+ - procServMgr: added options for ioc logfiles to be used
+ - apps/alhconfig - add SVT alarms and generator script
+ - HPS_EPICS.adl: updated list of MyaViewer machines
+ - ioc health: added iochvCaen autosave to the gui
+ - hvCaenApp: updated Makefile to dump sqlite db to text for VCS
+ - some makeup
+ - some makeup
+ - new values for collimator from vertical scan, log entry 3329009
+ - new values for collimator from vertical scan, log entry 3329009
+ - fixing ecal chiller alarm
+ - changing to run in current terminal unless any argument is given, to lessen accidental closing.  tried nohup but that did not work.
+ - not good to run this on clondaq, now running locally, is it ok to let it run on clonsl1/2/3?
+ - updating paths
+ - Faraday cup offset is changed to 36.6 in the iocclassc4 st.cmd
+ - set the viewer motor speed to 0.3 (down from 0.5)
+ - new positions for OTR and YAG screens
+ - new positions for OTR and YAG screens
+ - Corrected the format of BDL readout for 2H00 quads and the name of upstream halo counters L-R
+ - svtIntlkApp: fix, new bpm req file was not being installed
+
+Version 1.1.0:
+ - Merge branch 'develop' of https://github.com/wmoore28/epics
+ - svtIntlkApp medm: added no-beam to main screen and added units
+ - svtIntlkApp: working NO BEAM interlock for svt bias voltages
+ - svtIntlkApp: draft for BPM watchers
+ - svtInlkApp: changed so vacuum will only have a max compare (not min/max)
+ - svtDaq: removed usage of LD_LIBRARY_PATH for svtDaqApp and svtDaqDpmApp
+
+Version 1.0.1:
+ - svtDaqApp: added allHybCaput.sh (pelle)
+ - alh: added svtFebCooling.alhConfig (pelle)
+ - wave2RootApp: updated makefile to build Analyze_Beam_trip
+ - Analyze beam trips code with it's compilation command is added
+ - Read_60Hz was modified to read 5 channels and produce graphs of scaler channels. Each graph contains 3 events (each containg 60K buffer)
+ - changes to LED data
+ - flasherApp: fix to proto, loading channels from file wasn't working
+ - Flasher.adl: added asyn gui links
+ - gitignore: generated file, order of app names to ignore changed
+ - procServMgr: iocs will run as wmoore until a new groups account is configured
+ - apps/alhConfig - add (some) SVT alarms
+ - chillerApp: fixed parsing of ECAL temp limit readbacks
+ - added wave2root GUI button to the beam buttons. Increased the CA MAX ARRAY for wave2root app IOC
+ - ioc_hps_health.adl: added iocsvtIntlk
+ - svtIntlk.adl: minor updates to pvs shown
+ - svtIntlkApp: corrected min/max calculations
+ - apps/svtIntlk/medm: change variables displayed
+ - updating fast sequences
+ - HPS Main: cleaned up alh launcher links
+ - svtIntlkApp: fixes to gui
+ - fixing PV name
+ - svtDaqApp/medm - GUI changes add "reset interlocks" shell command for bias screen correct hybrid IDs for temperatures use FEB RTD temperatures instead of dummy
+ - MyaViewer: added host arg to launcher and updated HPS Main
+ - harp_genericApp: updated viewer_at_c CALC (stepanya)
+ - added gateway address to the address variables in the shell list for classc4. changed the names of the variables from 60Hz to the new struckDAQ application for the wave2root IOC DB
+ - chillerApp/ioc: added SVT and FE chillers on iocsvtChiller
+ - iocchiller: updated st.cmd for ecal only
+ - iocchiller: updated test iocs from EEL to Hall B
+ - chillerApp: removed false flow rdbk from presto.db
+ - updating ecal alarms
+ - adding comments for users
+ - completely changed the network file. Added resource.def file. In the scan SNL code added a loop to wait for the connection which made it work on classc1, but not classc4. Changed the path of where the scan files are copie on the MCC machines.
+
+Version 1.0.0:
+ - Updates to java harp_analyzer - Merge branch 'rafopar-master'
+ - Merge branch 'master' of https://github.com/rafopar/epics into rafopar-master
+ - Merge remote-tracking branch 'origin/develop'
+ - Merged hotfix-v0.3.4/master with develop, preparing for release
+ - xpsMotorApp: Hovanes added saveData.req for sscan records
+ - peak value, and the corresponding setPVs are added
+ - myaDataApp: added several pvs for harp and wire scan data
+ - svtIntlk/svtPlc: minor screen updates
+ - svt_plc.adl: pv name fix (HPS_SVT:PLC:o:RTD_SVT_Supply-Limit_HIGH)
+ - MyaViewer: hack for running Mya on clonpc## (rhel6)
+ - Merge branch 'develop' of https://github.com/wmoore28/epics into develop
+ - svt_plc.adl: updated labels
+ - svt_plc.adl: updated labels
+ - .gitignore: updated for new app
+ - Merge branch 'develop' of https://github.com/wmoore28/epics into develop
+ - svtIntlkApp: switched to use scale factor for plc settings
+ - Merge pull request #28 from hovanes-egiyan/develop
+ - Changed the formulas for the SVT realted positions to the new ones from the Takashi' presentation. Added angle calculations.
+ - Merge branch 'develop' of https://github.com/wmoore28/epics into develop
+ - HPS_EPICS.adl: added svt plc and svt soft interlocks
+ - svtPlcApp: updated adl
+ - added SVT and target motors to the motors GUI
+ - procServ.conf: added iocsvtIntlk
+ - Merge branch 'develop' of https://github.com/wmoore28/epics into develop
+ - svtIntlkApp/ioc: working draft, but needs control channels
+ - Merge branch 'master' of https://github.com/rafopar/epics into develop
+ - caput is added for harps harp_2c21 harp_tagger and harp_2H02A
+ - svtInlkApp: empty dir structure for the new app
+ - linkmaker.sh: modified to write .gitignore for application links
+ - devIocStats/autosave: loaded db's on several new iocs
+ - iocs: updated health screens
+ - procServ.conf: fixed ioc name
+ - iocBoot: .gitigore for generated files
+ - LVMPOD: minor fix in build
+ - Merged lastest from daq-ioc-integration and reorganzied svtDaqLib
+ - Merge branch 'hotfix-v0.3.4' of https://github.com/wmoore28/epics into develop
+ - adding mya spreadhsheet
+ - add new dir for mya doc.
+ - fix some of the scripts
+ - move svtDaq to clonioc4
+ - clear interlock
+ - ioc_hps_health.adl: removed iocsvtDaqDpm14
+ - new application for collecting data from struck scalers at fast speed for wave2root to write into a ROOT file
+ - changed classc8 to have completely new set of applications
+ - ignore compiled python
+ - Adding DPM event count record.
+ - rename
+ - Utility script to handle monitor procServ for the SVT
+ - Utility script to handle procServ for the SVT
+ - Merge branch 'daq-ioc-integration' of https://github.com/wmoore28/epics into daq-ioc-integration
+ - Fix memory leak. Clean up the style a little.
+ - Fix memory leak. Clean up the style a little.
+ - clean up xml document no matter what the socket status is.
+ - add exclude option
+ - change user for start/stop
+ - further integration of ioc boot for svt daq
+ - adding IOC admin to start scripts
+ - added makefile and test line to procServ
+ - adding IOC part of integration
+ - removing obj and lib from git
+ - trailing file
+ - Updates from ppa-pc91245 today
+ - integration commit for svt daq. work in progress.
+ - Merge branch 'hotfix-v0.3.2' of https://github.com/wmoore28/epics
+ - Merge branch 'master' of https://github.com/wmoore28/epics
+ - A legend added that prints beam x and y with respect to the nomincal center coordinates
+ - saveFile.png thing is now removed
+ - bgr?peak ratio was added
+ - error bars are added and scale for harp_2h02A is multiplied by 10
+
+Version 0.3.4:
+ - Merge remote-tracking branch 'origin/hotfix-v0.3.4'
+ - scalerApp: new bpm screen (stepanya)
+ - harp_analyzer: updates (rafopar)
+ - tools/ecal: updates (baltzell)
+ - general/harp/scaler/sixty_hz: various updates for medm, some db mods (stepanya)
+ - flasherApp: medm and dat related updates (celentan)
+ - ECalHVStatus.adl: fixed ramp down link
+ - procServ.conf: updated for proper iocs to run on clonioc1
+ - scalerApp: updated adl (stepanya)
+ - alhConfig: updated paths from alh to alhConfig (make distclean removes alh dir)
+ - Merged develop: moved to synApps-5-7, new apps, etc
+ - iocmyaData: added 2c21 harp
+ - myaDataApp/ioc: added draft for integrating scan data with Mya
+ - svtPlcApp: updated to use autosave, added gui, and Makefile cleanup
+ - svtPlcApp: updated db files from L5X file
+ - Merge remote-tracking branch 'origin/svt-devel' into develop
+ - Merge remote-tracking branch 'origin/synApps-5-7' into develop
+ - xpsMotorApp iocs: updated save_restore config to point to IOCDATA
+ - xpsMotorApp: updated .gitignore for symlink
+ - Newport XPS motor control additions.
+ - renamed the svt position GUI
+ - crated separate IOC dirctory for SVT BOTTOM scan. Clean up the directory for the XPS motor control IOC
+ - created separate IOC directory for SVT TOP scan
+ - crated separate IO directory for target scan
+ - Added a menu choice to open the scan GUIs from the target and SVT motion GUI. At this time the link is to the MEDM files in the sscan support module in synApps
+ - Added SVT TOP and SVT BOT scans. tested with the GUIs in ssan support pacakge
+ - cosmetic changes to the SVT position GUI
+ - fixed a bug in the position calculation mixinf bottom and top records. Significantly improved the SVT positioning GUI
+ - changed the upper limits for the SVT stages to smaller numbers
+ - minor changes to hps target GUI
+ - configured EPICS for the HPS target. Created an MEDM GUI to set the target at fixed positions. Added an EPICS db for target predetermined positions. The target positions will change
+ - Merge branch 'svt-devel' of https://github.com/wmoore28/epics into svt-devel
+ - svtPlcApp/iocsvtPlc: added draft of plc2epics for SVT interlocks
+ - svtPlcApp/iocsvtPlc: added draft of plc2epics for SVT interlocks
+ - ether_ip: moved to HPS synApps_5_7 for now
+ - Merge pull request #25 from hovanes-egiyan/synApps-5-7
+ - Configured all 3 stages for HPS SVT. The maximum position for the stages are still to be adjusted in the hall. Created DB files for EPICS aliases for three motors. Added a DB file for calculating various positions of the SVT motion. Modified the IOC booting script and xpsHallB.substitutions file accordingly. Removed the alias from the targets.db file.
+ - chillerApp: ready/tested for SVT and Frontend Board chillers
+ - Updated .gitignore for generated include/ from ether_ip
+ - ether_ip-2-26: added to drivers/Makefile
+ - ether_ip-2-26: added module and updated apps/configure/RELEASE
+ - procServMgr: added option for alternate path, allows testing dev iocs
+ - removed bunch of DB and substitution files not needed for HPS
+ - removed some files for collimator and radiators which were there from Hall D, but are not needed for HPS
+ - crated an IOC to load DB for HPS target stage motor. Looked fine on motor_expert GUI
+ - hvCaenApp: fixed sql db
+ - RELEASE: updated synApps comments
+ - hvCaenApp: imported missing SLAC files and minor updates
+ - hvCaen/svtDaq: added devIocStats
+ - medm: updated ioc health screen for new iocs
+ - procServMgr: quick hack for test setups, will be formalized later
+ - procServ: added iochvCaen, iocsvtDaq
+ - iochvCaen: imported SLAC st.cmd (svt-voltages.cmd) and mib
+ - svtDaq: added App and ioc, with minor cleanup from SLAC version
+ - drivers: manually merged HVCAENx527 and LVMPOD mods from SLAC (pelle)
+ - chillerApp: adl touch-up
+ - chillerApp: Presto made more consistant (screen, db)
+ - chillerApp: ThermoSci made more consistant (screen, db, proto)
+ - chillerApp: Anova make more consistant (screen, db)
+ - chillerApp: draft for SVT Presto chiller
+ - RELEASE: cleanup
+ - Merge branch 'synApps-5-7' of https://github.com/wmoore28/epics into svt-chiller-dev
+ - imported xpsMotorApp from Hall D
+ - apps/drivers: updated to use synApps_5_7 and regrouped drivers
+ - chillerApp: minor doc fix in anova.db
+ - chillerApp: added doc for the A80 (SVT chiller)
+ - chillerApp: added doc for the A80 (SVT chiller)
+ - Merge branch 'master' into develop
+
+Version 0.3.3:
+ - Merge remote-tracking branch 'origin/hotfix-v0.3.3'
+ - procServ.conf: added iocecalVoltages and moved all to clonioc2 after svtDaq issues on clonioc1
+ - ioc health: added iocecalVoltages
+ - harp_genericApp: added viewer.db (stepanya)
+ - hvcaApp: updates to save/restore scripts
+ - iocecalVoltages: updated to use IPs instead of hostnames, don't recall the issue
+ - generalApp: added save/restore to ecal hv adl
+ - flasherApp: update to scripts
+ - chillerApp: strictly formatting
+ - screenshot: swapped ':' in produced filenames due to scp issues (baltzell)
+ - alh: added alhConfig files to git
+
+Version 0.3.2:
+ - chillerApp: added on/off ctrl and setpoint adjustment
+ - generalApp: fixed path to ecalRampCtrl.sh
+ - generalApp: temp fix for launching alarm handlers
+ - wave2rootApp: added reader for 60Hz root files (wmoore, rafopar)
+ - classc4App: added autosave, but had issues overwriting existing sav files
+ - sixty_hzApp: install req file
+ - gitignore for autosave generated req files
+ - sixty_hzApp: created autosave req file, currently unused
+ - wave2rootApp: added autosave
+ - chillerApp: added comm status to adl's
+ - Merge branch 'master' of https://github.com/hovanes-egiyan/HPS_EPICS into develop
+ - added a button to launch the screen for controling the scaler waveform conversion to ROOT trees
+ - Merge branch 'master' of https://github.com/hovanes-egiyan/HPS_EPICS into develop
+ - small program to look at a single channel of a ROOT tree written from a waveform
+ - changed the string names for the enum for DAQ status
+ - screen to control writing to DAQ
+ - tools/ecal: removed generated library files from repo
+ - tools/hps_epics: update so refresh will work across releases
+ - tools: installer for screenshot
+ - medm/Makefile: update to HPS_EPICS.adl release tag
+ - .setup-hps: fix typo on LD_LIBRARY_PATH
+ - tools: added take screenshot
+ - ecal stripTools: minor config changes
+ - generalApp: ecal minor screen updates
+ - generalApp: added iocchiller autosave status
+ - generalApp: added iocwave2root to ioc_hps_health.adl
+ - chillerApp: fixed autosave path
+ - HPS_EPICS.adl: updated release number, vXXX was overwritten along the way
+ - wave2rootApp: fix, needed root libs in LD_LIBRARY_PATH
+
+Version 0.3.1:
+ - hotfix-v0.2.9: last min changes from old hotfix
+ - harp_genericApp/scalerApp: last min updates (stepanya)
+ - ecal: added launcher for DiagGUI
+ - hps_collimator (iocclassc4): fix for scan speeds
+
+Version 0.3.0:
+ - sixtyHzApp: fix, uncommented rms calc (levon,hovanes)
+ - hvcaApp: moved new ecal screens to generalApp
+ - procServ: added iocwave2root
+ - hvcaApp/generalApp: moved new ecal hv screens to generalApp, hvcaApp is all generated adl's
+ - Merge branch 'develop' of https://github.com/wmoore28/epics
+ - Merged hotfix-v0.2.9 and chiller-dev
+ - ecal: updated dsc2 and fadc
+ - ecal: gitignore for compiled libs
+ - TODO: harp_analyzer ToDo done
+ - tools/hps_epics: updated to include arg for which tree is desired, used by HPS_EPICS.adl
+ - Merge pull request #22 from hovanes-egiyan/master
+ - tested wave2root with sixty herz, now can write ROOT files
+ - generalApp: HPS_EPICS.adl, added access to other versions and refresh production version
+ - generalApp: ECalHVStatus.adl, added ramp up/down for HV
+ - generalApp: HPS_EPICS.adl updates for tools, etc
+ - scalerApp: adl, added hps target (stepanya)
+ - harp_genericApp: updated HPS target positions
+ - hvcaApp: added ecalRampCtrl.sh, created cleaner versions of generated adls
+ - EcalScalerGui: added app and startup scripts for use by HPS_EPICS.adl
+ - Merge branch 'hotfix-v0.2.9' of https://github.com/wmoore28/epics into chiller-dev
+ - chillerApp: renamed PVs to HPS_ECAL:CHILLER:
+ - HPS_EPICS.adl: trying out a way to add the git tag to the adl
+ - harp_analyzer: updated to prevent creation of tmp image file (rafopar,gagik)
+ - flasherApp: new fastSeq scripts (baltzell)
+ - chillerApp: added support for Thermo Scientific chiller (readbacks-only)
+ - lakeshoreApp: fix for MULT readback. Now handles autoscaling correctly and converts to G or T.
+ - btaApp: minor medm update
+ - scalerApp: updated PV names on scaler_hps.adl (stepanya)
+ - flasherApp: medm, updated clock settings to show only if using internal clock
+ - flasherApp: added scripts and updated adl to use initFlasher.sh (celentan)
+ - lakeshore450App: updated screens to show .DESC, :RAW, and :MULT PVs
+ - lakeshore450App: fixed PREC for calculated field, solving issue with some autoscale values
+ - vme iocs: fixed st.cmd to properly run from production version, not home directories
+
+Version 0.2.8:
+ - Merge branch 'hotfix-v0.2.8' of https://github.com/wmoore28/epics into develop
+ - scalerApp: fixes for scaler_hps.adl
+ - bomApp: moved from iocclassc4 to iocclassc1
+ - harp_genericApp: finalized hps_target motor
+ - testbuild.sh: removed check for EPICS env variable, no longer needed
+ - hvcaApp: last commit missed a .gitignore update
+ - hvcaApp: added .gitignore files for generated files/folders
+ - hvcaApp: added .gitignore files for generated files/folders
+ - flasherApp: fixed a handful of scripts for start/stop sequences
+ - TODO: added flasherApp cleanup
+ - flasherApp: added flasher_stop_all.sh for stopping all sequences
+ - flasherApp: added script for setting all LEDs off or on
+ - flasherApp: updated order of operations in scripts
+ - harp_genericApp: added motor channel for hps target (per stepanya, levon)
+ - apps/.gitignore: updated for new wave2rootApp
+ - HPS_EPICS.adl: added link for Flasher.adl
+ - flasher_start_color_seq: fix for setting string pvs
+
+Version 0.2.7:
+ - Merge branch 'develop'
+ - medm/Makefile: fix for removing .dat files
+ - flasherApp: added automated scripts for running blue|red sequences
+ - IOC directory for saving waveforms to ROOT files
+ - wave2root application derived from Hall D pxiroot application
+ - Merge branch 'hotfix-v0.2.6' of https://github.com/wmoore28/epics into hotfix-v0.2.7
+ - Merge branch 'hotfix-v0.2.6' of https://github.com/wmoore28/epics into hotfix-v0.2.6
+ - Lingering updates to hotfix-v0.2.6
+
 Version 0.2.6:
  - Merge branch 'hotfix-v0.2.6' of https://github.com/wmoore28/epics into hotfix-v0.2.6
  - Added TODO to toplevel Makefile
